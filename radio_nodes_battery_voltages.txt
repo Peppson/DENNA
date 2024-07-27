@@ -1,0 +1,10 @@
+
+--- Measured voltages ---
+Max: 4.2V
+Min: 3.4V
+
+--- Nodes ---
+Node 1:
+    max: 899
+    min: 730
+

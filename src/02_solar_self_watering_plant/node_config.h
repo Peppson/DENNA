@@ -1,0 +1,13 @@
+
+#pragma once
+namespace selected_node {
+
+
+// Node specific configs
+constexpr static bool IS_PUMP_BATTERY_DRIVEN = true;                // Sets the PMW for the water pump
+constexpr static uint32_t SLEEP_DURATION_SECONDS = 12*60*60UL;      // Deepsleep duration in seconds
+constexpr static uint32_t SLEEP_AT_THIS_TIME = 2100UL;              // Sleep at what time? (hhmm)
+constexpr static uint32_t WATER_SENSOR_MIN_VALUE = 65UL;            // Calibrated value with EMPTY tank
+constexpr static uint32_t WATER_SENSOR_MAX_VALUE = 271UL;           // Calibrated value with FULL tank
+constexpr static uint32_t NODE_UPDATE_INTERVAL = 8*60*60*1000UL;    // How often should the node send status update to master? (ms)
+}

@@ -1,0 +1,15 @@
+
+// Basic ATtiny 2-series guide
+https://btbm.ch/notes-on-using-the-new-attiny/
+
+
+// IOT battery life calculator
+https://www.of-things.de/battery-life-calculator.php
+
+
+// ATtiny824 datasheet
+https://ww1.microchip.com/downloads/en/DeviceDoc/ATtiny424-426-427-824-826-827-DataSheet-DS40002311A.pdf
+
+
+platformio device monitor -p COM13 -b 112500
+
