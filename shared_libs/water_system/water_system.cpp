@@ -8,30 +8,34 @@ uint16_t WaterSystem::_sensor_max_value;
 uint16_t WaterSystem::_sensor_min_value;
 
 
-uint8_t WaterSystem::get_water_level() {
+uint32_t WaterSystem::get_water_level() {
     CapacitorLite water_sensor(PIN_WATER_SENSOR_OUT, PIN_WATER_SENSOR_IN);
     constexpr uint8_t samples = 100;
-
-    // Enable ADC and feed the hungry Watchdog
-    ADC0.CTRLA |= ADC_ENABLE_bm; 
     WDT_FEED();
 
-    // Sum ADC readings (0-1023)
+    // Enable ADC
+    ADC0.CTRLA |= ADC_ENABLE_bm;
+
+    // Set VCC as reference for ADC
+    ADC0.CTRLC = TIMEBASE_1US | DEFAULT;
+
+    // Sum readings
     uint32_t sum = 0;
     for (size_t i = 0; i < samples; i++) {
-        uint16_t level = water_sensor.measure(); 
-        sum += constrain(level, 0, 1023);
-        delay(1);
+        sum += water_sensor.measure();
     }           
-    // Disable ADC
-    ADC0.CTRLA &= ~ADC_ENABLE_bm; 
 
+    // Set ADC ref back too 2V5 and disable
+    ADC0.CTRLC = TIMEBASE_1US | INTERNAL2V5;
+    ADC0.CTRLA &= ~ADC_ENABLE_bm;
+
+    // TODO
+    return 42;
+    /* 
     uint32_t average = sum / samples;
-    if (average <= _sensor_min_value) {
-        return 0;
-    }
-    
-    return map(average, _sensor_min_value, _sensor_max_value, 0, 100);
+    if (average <= _sensor_min_value) { return 0; }
+    return map(average, _sensor_min_value, _sensor_max_value, 0, 100); 
+    */
 }
 
 
@@ -61,7 +65,7 @@ void WaterSystem::run_water_pump(uint16_t duration_seconds, bool battery_driven)
         delay(5);
 
         // Stop if watertank is empty
-        if (!get_water_level()) {
+        if (get_water_level() == 0) {
             break; 
         } 
     }

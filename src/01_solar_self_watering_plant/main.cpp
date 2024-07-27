@@ -18,7 +18,7 @@ void loop() {}
 
 
 void setup() {
-    hardware.begin(&radio);
+    hardware.begin(&radio, true);
     radio.begin();
     selected_node::send_sensor_data(radio, true);
 }

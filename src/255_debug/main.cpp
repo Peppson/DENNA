@@ -5,31 +5,58 @@
 #include "hardware.h"
 #include "water_system.h"
 #include "utility.h"
+#include "capacitor_lite/capacitor_lite.h"
 
 //RF24Radio radio;
-Hardware hardware(true);
-//WaterSystem water_system(selected_node::WATER_SENSOR_MIN_VALUE, selected_node::WATER_SENSOR_MAX_VALUE);
+Hardware hardware(false);
+WaterSystem water_system(selected_node::WATER_SENSOR_MIN_VALUE, selected_node::WATER_SENSOR_MAX_VALUE);
 
 
 void setup() {
     //hardware.begin(&radio);
-
     hardware.init_TX_serial();
     delay(2000);
-    // Disable unused peripherals
-    ADC0.CTRLA &= ~ADC_ENABLE_bm;   // ADC 
-    TWI0.CTRLA &= ~TWI_ENABLE_bm;   // I2C
-    CCL.CTRLA &= ~CCL_ENABLE_bm;    // CCL
-    ADC0.CTRLC = TIMEBASE_1US | INTERNAL2V5;
 
-    /* while (1) {
-        digitalWrite(PIN_PA7, HIGH);
-        delay(2000);
-        digitalWrite(PIN_PA7, LOW);
-        delay(2000);
-    } */
 
-    
+
+    ADC0.CTRLA |= ADC_ENABLE_bm;
+    ADC0.CTRLC = TIMEBASE_1US | DEFAULT; 
+    CapacitorLite water_sensor(PIN_WATER_SENSOR_OUT, PIN_WATER_SENSOR_IN);
+
+    while (1) {
+        uint32_t sum = 0;
+        for (size_t i = 0; i < 100; i++) {
+            sum += water_sensor.measure();
+        }
+        log("%i\n", sum / 100); 
+        delay(500);
+    }
+    STOP
+
+
+    while (1) {
+        log("%i\n", water_sensor.measure());
+        delay(250);
+    }
+    STOP
+
+
+    /* ADC0.CTRLC = TIMEBASE_1US | DEFAULT;
+    uint8_t adcRef = ADC0.CTRLC & ADC_REFSEL_gm;
+    if (adcRef == VDD) {
+        log("1\n");
+    } else if (adcRef == EXTERNAL) {
+        log("2\n");
+    } else if (adcRef == INTERNAL1V024) {
+        log("3\n");
+    } else if (adcRef == INTERNAL2V048) {
+        log("4\n");
+    } else if (adcRef == INTERNAL2V5) {
+        log("5\n");
+    } else if (adcRef == INTERNAL4V096) {
+        log("6\n");
+    }
+    STOP */
 
 
     /* while (1) {

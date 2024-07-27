@@ -31,7 +31,7 @@ constexpr uint32_t convert_hhmm_to_seconds(const uint32_t& value) {
 }
 
 
-void Hardware::begin(RF24Radio* radio_ptr) {
+void Hardware::begin(RF24Radio* radio_ptr, const bool ADC_ref_2V5) {
     #if USB_SERIAL_ENABLED
         init_TX_serial(); 
     #endif
@@ -46,8 +46,10 @@ void Hardware::begin(RF24Radio* radio_ptr) {
     WDT_ENABLE();
     WDT_FEED();
 
-    // Set internal 2.5V reference for ADC readings
-    ADC0.CTRLC = TIMEBASE_1US | INTERNAL2V5;
+    // Set internal 2.5V reference for ADC
+    if (ADC_ref_2V5) {
+        ADC0.CTRLC = TIMEBASE_1US | INTERNAL2V5;
+    }
 
     // Save pointer to radio
     _radio_ptr = radio_ptr; 

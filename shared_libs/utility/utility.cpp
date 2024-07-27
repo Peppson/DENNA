@@ -104,20 +104,14 @@ void adc_calibration() {
 
 #if PUMP_CAL_ENABLED
 void water_level_calibration() {
-    ADC0.CTRLA |= ADC_ENABLE_bm; // Enable ADC
-    digitalWrite(PIN_POWER_IO, HIGH); // Run pump
+    //pinMode(PIN_POWER_IO, OUTPUT);
+    //digitalWrite(PIN_POWER_IO, LOW); // Pump on/off
     
     while (1) {
-        uint32_t sum = 0;
-        for (uint8_t i = 0; i < 100; i++) {
-            uint16_t val = WaterSystem::get_water_level();
-            sum += constrain(val, selected_node::WATER_SENSOR_MIN_VALUE, selected_node::WATER_SENSOR_MAX_VALUE);
-        }
-
-        uint32_t level = sum / 100;
+        uint32_t level = WaterSystem::get_water_level();
         uint32_t percent = map(level, selected_node::WATER_SENSOR_MIN_VALUE, selected_node::WATER_SENSOR_MAX_VALUE, 0, 100);
-        log("Average sum: %i\n", level);
-        log("Map percent: %i\n", percent);
+        log("Avg: "); print_int_hack(level); log("\n");
+        log("Mapped: %i\n", percent);
         delay(500); 
     }
 }

@@ -57,8 +57,8 @@ enum MsgCommand : uint16_t {
 #define PIN_UPDI                PIN_PB0         // UPDI programming
 #define PIN_POWER_IO            PIN_PB3         // Controls the "power circuit"
 #define PIN_TX_SERAIL           PIN_PB2         // Serial out   
-#define PIN_WATER_SENSOR_OUT    PIN_PA4         // Diy capacitive sensor out
-#define PIN_WATER_SENSOR_IN     PIN_PA5         // Diy capacitive sensor in
+#define PIN_WATER_SENSOR_OUT    PIN_PA4         // Diy capacitive sensor out    (4)
+#define PIN_WATER_SENSOR_IN     PIN_PA5         // Diy capacitive sensor in     (5)                                                              
 
 // Watchdog
 #if WATCHDOG_ENABLED

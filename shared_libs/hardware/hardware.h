@@ -13,7 +13,7 @@ public:
         set_default_pin_states(is_battery_driven);
     }
     
-    static void begin(RF24Radio* radio_ptr);
+    static void begin(RF24Radio* radio_ptr, const bool ADC_ref_2V5 = false);
     static void set_default_pin_states(const bool is_battery_Driven = false);
     static void disable_all_pins();
     static void init_TX_serial();

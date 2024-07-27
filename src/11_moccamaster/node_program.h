@@ -17,11 +17,10 @@ bool get_mocca_master_state() {
 
     // Sum ADC readings (0-1023)
     uint32_t sum = 0;
-    for (uint8_t i = 0; i < samples; i++) {
-        uint16_t level = analogRead(PIN_COFFEE_STATE); 
-        sum += constrain(level, 0, 1023);
-        delay(1);
+    for (uint8_t i = 0; i < samples; i++) { 
+        sum += analogRead(PIN_COFFEE_STATE);
     }
+    
     // Turn off ADC
     ADC0.CTRLA &= ~ADC_ENABLE_bm; 
 

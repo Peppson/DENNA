@@ -36,7 +36,7 @@ uint32_t CapacitorLite::measure() {
     int val = analogRead(_inPin);
     digitalWrite(_outPin, LOW);
     pinMode(_inPin, OUTPUT);   
-              
+       
     // Calculate result
     capacitance = (long)val * _inCapToGnd / (max(_maxAdcValue - val, 1));
     return (unsigned int)min(capacitance, UINT_MAX);
