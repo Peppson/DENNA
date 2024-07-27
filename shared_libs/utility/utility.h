@@ -1,7 +1,6 @@
 
 #pragma once 
 #include "../global_config.h"
-#include "rf24_radio.h"
 
 
 namespace util {
